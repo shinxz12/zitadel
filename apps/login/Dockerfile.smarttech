@@ -22,15 +22,15 @@ RUN pnpm install --frozen-lockfile --filter "@zitadel/login..." --filter "@zitad
 RUN pnpm --filter @zitadel/proto run generate \
  && pnpm --filter @zitadel/client run build \
  && pnpm --filter @zitadel/login run build
+RUN mkdir -p /env-file && touch /env-file/.env
 
-# Runtime stage: same as apps/login/Dockerfile.
+# Runtime stage: same layout as apps/login/Dockerfile, but without RUN steps so images for other
+# architectures can be assembled without emulation (the stock "node" user replaces "nextjs").
 FROM node:24-alpine
 WORKDIR /app
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
-RUN mkdir -p /.env-file && touch /.env-file/.env && chown -R nextjs:nodejs /.env-file
-COPY --from=build --chown=nextjs:nodejs /src/apps/login/.next/standalone ./
-USER nextjs
+COPY --from=build --chown=node:node /env-file /.env-file
+COPY --from=build --chown=node:node /src/apps/login/.next/standalone ./
+USER node
 ENV HOSTNAME="::" \
     PORT="3000" \
     NODE_ENV="production" \
