@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Alert } from "./alert";
 import { AutoSubmitForm } from "./auto-submit-form";
+import { displayLoginName } from "@/lib/login-name";
 import { Avatar } from "./avatar";
 import { Translated } from "./translated";
 
@@ -113,7 +114,7 @@ export function SessionItem({ session, reload, requestId }: { session: Session; 
 
             <div className="flex flex-col items-start overflow-hidden">
               <span className="">{session.factors?.user?.displayName}</span>
-              <span className="text-xs text-ellipsis opacity-80">{session.factors?.user?.loginName}</span>
+              <span className="text-xs text-ellipsis opacity-80">{displayLoginName(session.factors?.user?.loginName)}</span>
               {valid ? (
                 <span className="text-xs text-ellipsis opacity-80">
                   <Translated i18nKey="verified" namespace="accounts" />{" "}

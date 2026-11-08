@@ -8,6 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Alert } from "./alert";
+import { displayLoginName } from "@/lib/login-name";
 import { Avatar } from "./avatar";
 import { isSessionPrimaryFactorAndLifetimeValid } from "./session-item";
 import { Translated } from "./translated";
@@ -68,7 +69,7 @@ export function SessionClearItem({ session, reload }: { session: Session; reload
 
         <div className="flex flex-col items-start overflow-hidden">
           <span className="">{session.factors?.user?.displayName}</span>
-          <span className="text-xs text-ellipsis opacity-80">{session.factors?.user?.loginName}</span>
+          <span className="text-xs text-ellipsis opacity-80">{displayLoginName(session.factors?.user?.loginName)}</span>
           {valid ? (
             <span className="text-xs text-ellipsis opacity-80">
               {verifiedAt && (

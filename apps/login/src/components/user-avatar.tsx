@@ -1,4 +1,5 @@
 import { Avatar } from "@/components/avatar";
+import { displayLoginName } from "@/lib/login-name";
 import { getComponentRoundness } from "@/lib/theme";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -40,7 +41,7 @@ export function UserAvatar({ loginName, displayName, showDropdown, searchParams 
       <div>
         <Avatar size="small" name={displayName ?? loginName ?? ""} loginName={loginName ?? ""} />
       </div>
-      <span className="text-14px ml-4 max-w-[250px] overflow-hidden pr-4 text-ellipsis">{loginName}</span>
+      <span className="text-14px ml-4 max-w-[250px] overflow-hidden pr-4 text-ellipsis">{displayLoginName(loginName)}</span>
       <span className="flex-grow"></span>
       {showDropdown && (
         <Link
